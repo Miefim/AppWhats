@@ -1,17 +1,22 @@
-import Header from "./components/Header"
-import ChatsList from "./components/ChatsList"
-import ChatBlock from "./components/ChatBlock";
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom"
+
+import MainPage from "./pages/Main"
+import AuthPage from "./pages/Auth"
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <>
+    <Route path="/" element={<MainPage />} />
+    <Route path="/auth" element={<AuthPage />} />
+  </>
+))
+
 
 const App: React.FC = () => {
   return (
-    <div className="app">
-      <Header />
-      <div className="contentContainer">
-        <ChatsList />
-        <ChatBlock />
-      </div>
-    </div>
-  );
+
+    <RouterProvider router={router}/>
+    
+  )
 }
 
 export default App
