@@ -1,0 +1,14 @@
+.sendButton {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: fit-content;
+   height: fit-content;
+   border: none;
+   background: none;
+   border-radius: 5px;
+   padding: 10px 20px;
+}
+.sendButton:hover {
+   background-color: #e7e7e7;
+}

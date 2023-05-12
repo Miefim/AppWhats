@@ -1,0 +1,11 @@
+.pageWrapper {
+   display: flex;
+   flex-direction: column;
+   background-color: #FFF;
+   box-sizing: border-box;
+   width: 900px;
+   height: 90vh;
+   margin: auto;
+   border-radius: 10px;
+   box-shadow: 2px 2px 10px 2px #00000050;
+}

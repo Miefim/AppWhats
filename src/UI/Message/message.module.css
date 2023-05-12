@@ -1,0 +1,34 @@
+.outgoingMessage {
+   font-family: 'Roboto', sans-serif;
+   box-sizing: border-box;
+   max-width: 48%;
+   min-width: auto;
+   padding: 7px;
+   margin: 1.5px 0 1.5px auto;
+   background-color: #d9fdd2;
+   border-radius: 5px;
+   position: relative;
+   z-index: 2;
+}
+
+.incomingMessage {
+   background-color: #bebebe;
+   margin: 1.5px auto 1.5px 0;
+}
+
+.outgoingMessageArrow {
+   position: absolute;
+   width: 10px;
+   height: 10px;
+   background-color: #d9fdd2;
+   transform: rotate(45deg);
+   top: 5px;
+   right: -4px;
+   z-index: -1;
+}
+
+.incomingMessageArrow {
+   right: auto;
+   left: -4px;
+   background-color: #bebebe;
+}

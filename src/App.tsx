@@ -1,13 +1,22 @@
-import React from 'react';
-import './App.css';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom"
 
-function App() {
+import MainPage from "./pages/Main"
+import AuthPage from "./pages/Auth"
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <>
+    <Route path="/" element={<MainPage />} />
+    <Route path="/auth" element={<AuthPage />} />
+  </>
+))
+
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      
+
+    <RouterProvider router={router}/>
     
-    </div>
-  );
+  )
 }
 
-export default App;
+export default App

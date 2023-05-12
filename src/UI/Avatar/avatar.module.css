@@ -1,0 +1,21 @@
+.avatar {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   box-sizing: border-box;
+   width: 45px;
+   height: 45px;
+   border: 1px solid #c8c8c8;
+   border-radius: 50%;
+   background-color: rgb(234, 234, 234);
+   overflow: hidden;
+}
+
+.avatar__stockImage {
+   width: 22px;
+   opacity: .3;
+}
+
+.avatar__image {
+   width: 45px;
+}
