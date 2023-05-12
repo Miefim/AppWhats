@@ -1,13 +1,17 @@
-import React from 'react';
-import './App.css';
+import Header from "./components/Header"
+import ChatsList from "./components/ChatsList"
+import ChatBlock from "./components/ChatBlock";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      
-    
+    <div className="app">
+      <Header />
+      <div className="contentContainer">
+        <ChatsList />
+        <ChatBlock />
+      </div>
     </div>
   );
 }
 
-export default App;
+export default App

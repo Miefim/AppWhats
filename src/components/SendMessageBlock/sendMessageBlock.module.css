@@ -1,0 +1,6 @@
+.wrapper {
+   display: flex;
+   position: relative; 
+   width: 560px;
+   border-bottom-right-radius: 10px;
+}
