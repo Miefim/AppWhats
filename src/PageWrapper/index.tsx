@@ -2,7 +2,7 @@ import Header from "../components/Header"
 import style from './pageWrapper.module.css'
 
 type PageWrapperProps = {
-   children: JSX.Element
+   children?: JSX.Element
 }
 
 const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {

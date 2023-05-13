@@ -1,7 +1,7 @@
 import style from './button.module.css'
 
 type ButtonUIProps = {
-   children: string
+   children: JSX.Element | string
    onClick?: React.MouseEventHandler<HTMLButtonElement>
    className?: string
 }

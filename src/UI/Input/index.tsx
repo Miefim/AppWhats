@@ -5,15 +5,18 @@ type InputUIProps = {
    value?: string
    placeholder?: string
    className?: string
+   maxLength?: number
+   type?: string
 }
 
-const InputUI: React.FC<InputUIProps> = ({ value, onChange, placeholder, className }) => {
+const InputUI: React.FC<InputUIProps> = ({ value, onChange, placeholder, className, maxLength, type = 'text' }) => {
    return(
       <input 
          className={`${style.input} ${className}`} 
          value={value} onChange={onChange} 
          placeholder={placeholder} 
-         type="text" 
+         type={type}
+         maxLength={maxLength}
       />
    )
 }

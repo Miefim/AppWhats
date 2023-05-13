@@ -35,3 +35,20 @@
    width: 400px;
    text-align: center;
 }
+
+.authForm__loader {
+   width: 13px;
+}
+
+.authForm__err {
+   display: flex;
+   color: red;
+   width: 100%;
+   height: 20px;
+   margin-bottom: 5px;
+}
+
+.authForm__button {
+   width: 70px;
+   height: 36px;
+}
