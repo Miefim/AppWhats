@@ -39,6 +39,30 @@ export const getStatus = createAsyncThunk<GetStatusResponse, GetUserParams, {rej
    }
 )
 
+export interface LogoutResponce {
+   "isLogout": boolean
+}
+
+export const logout = createAsyncThunk<LogoutResponce, GetUserParams, {rejectValue: Error}>("userData/logout", 
+   async (params, {rejectWithValue}) => {
+      try {
+
+         const res = await fetch(`https://api.green-api.com/waInstance${params.id}/logout/${params.token}`)
+         const resJson = await res.json()
+         return resJson
+
+      } 
+      catch (error) { 
+
+         return rejectWithValue({
+            status: 500,
+            message: 'Ошибка сервера'
+         })
+         
+      }
+   }
+)
+
 export type GetQrResponse = {
    type: string
    message: string
@@ -66,7 +90,7 @@ export const getQr = createAsyncThunk<GetQrResponse, GetUserParams, {rejectValue
    }
 )
 
-export const setSettings = createAsyncThunk<any, GetUserParams>("userData/setSettings", 
+export const setSettings = createAsyncThunk<void, GetUserParams>("userData/setSettings", 
    async (params) => {
 
       const data = {
@@ -85,9 +109,7 @@ export const setSettings = createAsyncThunk<any, GetUserParams>("userData/setSet
 
       const res = await fetch(`https://api.green-api.com/waInstance${params.id}/setSettings/${params.token}`, {
          method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-         },
+         headers: {"Content-Type": "application/json"},
          body: JSON.stringify(data)
       })
 
@@ -127,6 +149,13 @@ export const userData = createSlice({
 
       setAuthStatus: (state, action: PayloadAction<'notAuthorized' | 'authorized' | null>) => {
          state.authStatus = action.payload
+      },
+
+      resetAuthData: (state) => {
+         state.id = null
+         state.token = null
+         state.authStatus = null
+         state.qr = null
       }
 
    },
@@ -145,9 +174,7 @@ export const userData = createSlice({
       })
       builder.addCase(getStatus.rejected, (state, action) => {
          state.isLoading = false
-         if(action.payload) {
-            state.error = action.payload
-         }
+         if(action.payload) state.error = action.payload
       })
 
       builder.addCase(getQr.pending, (state) => {
@@ -160,9 +187,23 @@ export const userData = createSlice({
       })
       builder.addCase(getQr.rejected, (state, action) => {
          state.isLoading = false
-         if(action.payload) {
-            state.error = action.payload
-         }
+         if(action.payload) state.error = action.payload
+      })
+
+      builder.addCase(logout.pending, (state) => {
+         state.isLoading = true
+         state.error = null
+      })
+      builder.addCase(logout.fulfilled, (state) => {
+         state.isLoading = false
+         state.id = null
+         state.token = null
+         state.authStatus = null
+         state.qr = null
+      })
+      builder.addCase(logout.rejected, (state, action) => {
+         state.isLoading = false
+         if(action.payload) state.error = action.payload
       })
 
    }
@@ -170,6 +211,6 @@ export const userData = createSlice({
 
 export const userDataSelector = (state: RootState) => state.userData
 
-export const { setAuthStatus } = userData.actions
+export const { setAuthStatus, resetAuthData } = userData.actions
 
 export default userData.reducer

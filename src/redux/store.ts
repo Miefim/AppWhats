@@ -2,14 +2,18 @@ import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch } from "react-redux"
 
 import userData from "./slices/userDataSlice"
-import notificationSlice from "./slices/notificationSlice"
+import notification from "./slices/notificationSlice"
+import chats from './slices/chatsSlice'
+import selectChatSlice from "./slices/selectChatSlice"
 
 export const store = configureStore({
 
    reducer: {
 
       userData,
-      notificationSlice
+      notification,
+      chats,
+      selectChatSlice
       
    }
    

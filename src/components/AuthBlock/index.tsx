@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '../../redux/store'
-import { userDataSelector, getStatus, getQr, setSettings } from '../../redux/slices/userDataSlice'
+import { userDataSelector, getStatus, getQr, setSettings, resetAuthData } from '../../redux/slices/userDataSlice'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import InputUI from '../../UI/Input'
 import ButtonUI from '../../UI/Button'
@@ -15,9 +15,9 @@ const AuthBlock: React.FC = () => {
    const dispatch = useAppDispatch()
    const navigate = useNavigate()
    const { id, token, authStatus, qr, isLoading, error } = useSelector(userDataSelector)
-   const [idValue, setIdValue] = useState<string>('1101818648')
-   const [tokenValue, setTokenValue] = useState<string>('ab651bd328014604bac32d83e67f712e44c52b2531c04e10b7')
-   const [getLocalStorage, setLocalStorage] = useLocalStorage() 
+   const [idValue, setIdValue] = useState<string>('1101820336')
+   const [tokenValue, setTokenValue] = useState<string>('3845d11cc758416eb4853749fe1cc84b8723828d3b684daa9a')
+   const [getLocalStorage, setLocalStorage, deleteLocalstorage] = useLocalStorage() 
 
    const authData = getLocalStorage('APPWHATSAUTH')
    
@@ -52,6 +52,11 @@ const AuthBlock: React.FC = () => {
          dispatch(getQr({id, token}))
       }
    }
+
+   const otherInstansClickHandler = () => {
+      dispatch(resetAuthData())
+      deleteLocalstorage('APPWHATSAUTH')
+   }
       
    if(isLoading){
       return (
@@ -80,7 +85,7 @@ const AuthBlock: React.FC = () => {
                      onChange={(e) => setTokenValue(e.target.value)}
                      value={tokenValue}
                   />
-                  <ButtonUI className={style.authForm__button} onClick={enterButtonHandler}>
+                  <ButtonUI className={style.authForm__enterButton} onClick={enterButtonHandler}>
                      {isLoading ? <LoaderUI className={style.authForm__loader} /> : 'Ввод'}
                   </ButtonUI>
                </div>
@@ -93,7 +98,8 @@ const AuthBlock: React.FC = () => {
                   </p>
                   {!isLoading && <img src={`data:image/png;base64,${qr}`} alt="" />}
                   {isLoading && <LoaderUI />}
-                  <ButtonUI onClick={getQrButtonHandler}>Получить новый QR-код</ButtonUI>
+                  <ButtonUI className={style.authForm__qrButton} onClick={getQrButtonHandler}>Получить новый QR-код</ButtonUI>
+                  <ButtonUI onClick={otherInstansClickHandler}>Ввести другие данные инстанса</ButtonUI>
                </div>
             }
          </div>

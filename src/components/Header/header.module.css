@@ -25,7 +25,7 @@
 .status {
    display: flex;
    align-items: center;
-   width: 115px;
+   width: 140px;
    font-size: 13px;
 }
 
@@ -42,4 +42,14 @@
 .indicator__green {
    background-color: green;
    box-shadow: 0px 0px 5px 2px green;
+}
+
+.status__logoutButton {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 80%;
+   width: 30px;
+   padding: 0;
+   margin: auto 0 auto auto;
 }

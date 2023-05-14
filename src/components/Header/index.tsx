@@ -1,11 +1,23 @@
 import { useSelector } from 'react-redux'
 
-import { userDataSelector } from '../../redux/slices/userDataSlice'
+import { useAppDispatch } from '../../redux/store'
+import { userDataSelector, logout } from '../../redux/slices/userDataSlice'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
+import ButtonUI from '../../UI/Button'
 import style from './header.module.css'
 
 const Header: React.FC = () => {
-   const { authStatus } = useSelector(userDataSelector)
+   const dispatch = useAppDispatch()
+   const { id, token, authStatus } = useSelector(userDataSelector)
    const isAuth = Boolean(authStatus === 'authorized')
+   const [ _, __, deleteLocalstorage ] = useLocalStorage()
+
+   const logOutButtonHandler = async() => {
+      if(id && token){
+         await dispatch(logout({id, token}))
+         deleteLocalstorage('APPWHATSAUTH')
+      }
+   }
 
    return(
       <header className={style.header}>
@@ -16,6 +28,11 @@ const Header: React.FC = () => {
          <div className={style.status}>
             <div className={`${style.status__indicator} ${isAuth && style.indicator__green}`} />
             {isAuth ? 'Авторизован' : 'Не авторизован'}
+            {isAuth &&
+               <ButtonUI className={style.status__logoutButton} onClick={logOutButtonHandler}>
+                  <img height='10px' src="/img/logout.png" alt="" />
+               </ButtonUI>
+            }
          </div>
       </header>
    )

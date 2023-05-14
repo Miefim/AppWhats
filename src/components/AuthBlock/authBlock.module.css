@@ -48,7 +48,11 @@
    margin-bottom: 5px;
 }
 
-.authForm__button {
+.authForm__enterButton {
    width: 70px;
    height: 36px;
+}
+
+.authForm__qrButton {
+   margin-bottom: 10px;
 }

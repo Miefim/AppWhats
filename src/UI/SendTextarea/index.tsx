@@ -5,13 +5,15 @@ type SendTextareaUIProps = {
    value?: string
    placeholder?: string
    className?: string
+   onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>
 }
 
-const SendTextareaUI: React.FC<SendTextareaUIProps> = ({ value, setValue, placeholder, className }) => {
+const SendTextareaUI: React.FC<SendTextareaUIProps> = ({ value, setValue, placeholder, className, onKeyDown }) => {
    return(
       <textarea 
          className={`${style.textarea} ${className}`} 
-         onChange={setValue} 
+         onChange={setValue}
+         onKeyDown={onKeyDown}
          value={value} 
          placeholder={placeholder} 
       />

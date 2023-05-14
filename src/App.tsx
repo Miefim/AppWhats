@@ -5,6 +5,8 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 import { useAppDispatch } from './redux/store'
 import { userDataSelector, setAuthStatus } from './redux/slices/userDataSlice'
 import { getNotification, notificationSelector, deleteNotification } from './redux/slices/notificationSlice'
+import { getMessages, selectChatSelector } from './redux/slices/selectChatSlice'
+import { incrementCount } from './redux/slices/chatsSlice'
 import MainPage from "./pages/Main"
 import AuthPage from "./pages/Auth"
 
@@ -19,6 +21,7 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch()
   const { id, token, authStatus } = useSelector(userDataSelector)
   const { notification } = useSelector(notificationSelector)
+  const { selectedChats } = useSelector(selectChatSelector)
 
   useEffect(() => {
     setInterval(() => {
@@ -39,6 +42,19 @@ const App: React.FC = () => {
           authStatus !== 'authorized' && dispatch(setAuthStatus('authorized'))
           dispatch(deleteNotification({id, token, notificationId: notification.receiptId})) 
         }
+      }
+      else if(notification.body.typeWebhook === 'incomingMessageReceived'){
+        if(notification.body.senderData.chatId === selectedChats?.id){
+          dispatch(getMessages({id, token, chatId: selectedChats?.id}))
+          dispatch(deleteNotification({id, token, notificationId: notification.receiptId}))
+        }
+        else {
+          dispatch(incrementCount(notification.body.senderData.chatId))
+          dispatch(deleteNotification({id, token, notificationId: notification.receiptId}))
+        }
+      }
+      else{
+        dispatch(deleteNotification({id, token, notificationId: notification.receiptId}))
       }
     }
   },[notification])

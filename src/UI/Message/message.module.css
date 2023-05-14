@@ -9,6 +9,7 @@
    border-radius: 5px;
    position: relative;
    z-index: 2;
+   
 }
 
 .incomingMessage {
@@ -31,4 +32,9 @@
    right: auto;
    left: -4px;
    background-color: #bebebe;
+}
+
+.messageText {
+   width: 100%;
+   overflow: hidden;
 }

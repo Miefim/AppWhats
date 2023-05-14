@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../store"
 import { GetUserParams, Error } from "./userDataSlice"
 
-export type INotification = {
+export interface INotification {
    receiptId: number
    body: {
       typeWebhook: string
@@ -11,6 +11,9 @@ export type INotification = {
          idInstance: number
          wid: string
          typeInstance: string
+      }
+      senderData: {
+         chatId: string
       }
       timestamp: number
       stateInstance: string
@@ -80,17 +83,15 @@ export const notification = createSlice({
 
    extraReducers: (builder) => {
 
-      builder.addCase(getNotification.fulfilled, (state, action) => {
-         
+      builder.addCase(getNotification.fulfilled, (state, action) => {  
          if(state.notification !== action.payload){
             state.notification = action.payload 
-         }
-         
+         } 
       })
 
    }
 })
 
-export const notificationSelector = (state: RootState) => state.notificationSlice
+export const notificationSelector = (state: RootState) => state.notification
 
 export default notification.reducer
