@@ -151,11 +151,12 @@ export const userData = createSlice({
          state.authStatus = action.payload
       },
 
-      resetAuthData: (state) => {
+      resetAuthDataSlice: (state) => {
          state.id = null
          state.token = null
          state.authStatus = null
          state.qr = null
+         state.error = null
       }
 
    },
@@ -211,6 +212,6 @@ export const userData = createSlice({
 
 export const userDataSelector = (state: RootState) => state.userData
 
-export const { setAuthStatus, resetAuthData } = userData.actions
+export const { setAuthStatus, resetAuthDataSlice } = userData.actions
 
 export default userData.reducer

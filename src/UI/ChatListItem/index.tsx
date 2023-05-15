@@ -2,16 +2,17 @@ import AvatarUI from '../Avatar'
 import style from './chatListItem.module.css'
 
 type ChatItemProps = {
-   chatName: string
    id: string
-   type: string
+   chatName?: string
+   type?: string
    className?: string
    avatar?: string
-   onClick?: React.MouseEventHandler<HTMLDivElement> 
    count?: number
+   onClick?: React.MouseEventHandler<HTMLDivElement> 
 }
 
 const ChatItem: React.FC<ChatItemProps> = ({ chatName, id, type, className, avatar, onClick, count }) => {
+
    return(
       <div 
          className={`${style.chatItem} ${className}`} 
@@ -22,11 +23,12 @@ const ChatItem: React.FC<ChatItemProps> = ({ chatName, id, type, className, avat
       >
          <AvatarUI avatarUrl={avatar} className={style.chatItem__avatar} />
          <div className={style.chatItem__chatName}>
-            {chatName}
+            {chatName ? chatName : id}
          </div>
          {count && count > 0 ? <div className={style.chatItem__count}>{count}</div> : ''}
       </div>
    )
+   
 }
 
 export default ChatItem

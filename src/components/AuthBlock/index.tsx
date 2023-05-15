@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
+import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../redux/store'
-import { userDataSelector, getStatus, getQr, setSettings, resetAuthData } from '../../redux/slices/userDataSlice'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
+import { 
+   getQr, 
+   getStatus, 
+   setSettings, 
+   userDataSelector, 
+   resetAuthDataSlice 
+} from '../../redux/slices/userDataSlice'
 import InputUI from '../../UI/Input'
 import ButtonUI from '../../UI/Button'
 import LoaderUI from '../../UI/Loader'
@@ -15,19 +20,22 @@ const AuthBlock: React.FC = () => {
    const dispatch = useAppDispatch()
    const navigate = useNavigate()
    const { id, token, authStatus, qr, isLoading, error } = useSelector(userDataSelector)
-   const [idValue, setIdValue] = useState<string>('1101820336')
-   const [tokenValue, setTokenValue] = useState<string>('3845d11cc758416eb4853749fe1cc84b8723828d3b684daa9a')
-   const [getLocalStorage, setLocalStorage, deleteLocalstorage] = useLocalStorage() 
+   const [ idValue, setIdValue ] = useState<string>('1101820336')
+   const [ tokenValue, setTokenValue ] = useState<string>('3845d11cc758416eb4853749fe1cc84b8723828d3b684daa9a')
+   const [ getLocalStorage, setLocalStorage, deleteLocalstorage ] = useLocalStorage() 
 
    const authData = getLocalStorage('APPWHATSAUTH')
    
    useEffect(() => {
+
       if(authData){
          dispatch(getStatus({id: authData.id, token: authData.token}))
       }
+
    },[])
    
    useEffect(() => {
+
       if(id && token){
          setLocalStorage('APPWHATSAUTH', {
             id, 
@@ -41,6 +49,7 @@ const AuthBlock: React.FC = () => {
       else if(id && token && authStatus === 'notAuthorized'){
          dispatch(getQr({id, token}))
       }
+      
    },[authStatus])
    
    const enterButtonHandler = () => {  
@@ -54,7 +63,7 @@ const AuthBlock: React.FC = () => {
    }
 
    const otherInstansClickHandler = () => {
-      dispatch(resetAuthData())
+      dispatch(resetAuthDataSlice())
       deleteLocalstorage('APPWHATSAUTH')
    }
       
@@ -71,19 +80,23 @@ const AuthBlock: React.FC = () => {
             {!id &&
                <div className={style.authForm}>
                   <h3 className={style.authForm__title}>Введите данные своего инстанса</h3>
+                  <div className={style.authForm__helper}>
+                     Данные можно получить, зарегистрировавшись на ресурсе <br />
+                     <a className={style.helper__link} target='_blanc' href='https://green-api.com/index.html'>GREEN API</a>
+                  </div>
                   <div className={style.authForm__err}>{error && 'Неверный token или id'}</div>
                   <InputUI 
-                     className={style.authForm__input} 
-                     placeholder='idInstance' 
                      onChange={(e) => setIdValue(e.target.value)}
                      value={idValue}
+                     className={style.authForm__input} 
+                     placeholder='idInstance' 
                      maxLength={10}
                   />
                   <InputUI 
-                     className={style.authForm__input}
-                     placeholder='apiTokenInstance' 
                      onChange={(e) => setTokenValue(e.target.value)}
                      value={tokenValue}
+                     className={style.authForm__input}
+                     placeholder='apiTokenInstance' 
                   />
                   <ButtonUI className={style.authForm__enterButton} onClick={enterButtonHandler}>
                      {isLoading ? <LoaderUI className={style.authForm__loader} /> : 'Ввод'}
@@ -96,7 +109,7 @@ const AuthBlock: React.FC = () => {
                   <p className={style.authForm__helper}>
                      Для этого зайдите в настройки приложения, нажмите на изображение с QR-кодом и нажмите сканировать
                   </p>
-                  {!isLoading && <img src={`data:image/png;base64,${qr}`} alt="" />}
+                  {!isLoading && <img src={`data:image/png;base64,${qr}`} alt='' />}
                   {isLoading && <LoaderUI />}
                   <ButtonUI className={style.authForm__qrButton} onClick={getQrButtonHandler}>Получить новый QR-код</ButtonUI>
                   <ButtonUI onClick={otherInstansClickHandler}>Ввести другие данные инстанса</ButtonUI>
@@ -105,6 +118,7 @@ const AuthBlock: React.FC = () => {
          </div>
       )
    }
+   
 }
 
 export default AuthBlock

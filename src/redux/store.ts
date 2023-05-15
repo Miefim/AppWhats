@@ -1,10 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit"
-import { useDispatch } from "react-redux"
+import { useDispatch } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
 
-import userData from "./slices/userDataSlice"
-import notification from "./slices/notificationSlice"
+import userData from './slices/userDataSlice'
+import notification from './slices/notificationSlice'
 import chats from './slices/chatsSlice'
-import selectChatSlice from "./slices/selectChatSlice"
+import selectedChat from './slices/selectedChatSlice'
 
 export const store = configureStore({
 
@@ -13,7 +13,7 @@ export const store = configureStore({
       userData,
       notification,
       chats,
-      selectChatSlice
+      selectedChat
       
    }
    

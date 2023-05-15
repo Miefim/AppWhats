@@ -32,6 +32,7 @@
 
 .authForm__helper {
    margin: 0;
+   margin-bottom: 10px;
    width: 400px;
    text-align: center;
 }
@@ -55,4 +56,10 @@
 
 .authForm__qrButton {
    margin-bottom: 10px;
+}
+
+.helper__link {
+   color: green;
+   text-decoration: none;
+   font-weight: 500;
 }

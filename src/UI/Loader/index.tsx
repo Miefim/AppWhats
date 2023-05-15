@@ -5,9 +5,11 @@ type LoaderProps = {
 }
 
 const LoaderUI: React.FC<LoaderProps> = ({ className }) => {
+
    return(
-      <img className={`${style.loader} ${className}`} src="img/loader.png" alt="" />
+      <img className={`${style.loader} ${className}`} src='img/loader.png' alt='' />
    )
+   
 }
 
 export default LoaderUI

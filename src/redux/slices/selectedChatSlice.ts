@@ -1,11 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-
 import { RootState } from '../store'
+import { IChatFullInfo } from './chatsSlice'
 import { GetUserParams, Error } from './userDataSlice'
-import { IGetChatsResponse } from './chatsSlice'
 
-export interface IGetMessageResponse {
-   type: "outgoing" | "incoming"
+export interface IMessage {
+   type: 'outgoing' | 'incoming'
    idMessage: string
    timestamp: number
    typeMessage: string
@@ -19,17 +18,17 @@ export interface IGetMessageParams extends GetUserParams {
    chatId: string,
 }
 
-export const getMessages = createAsyncThunk<IGetMessageResponse[], IGetMessageParams, {rejectValue: Error}>("selectChat/getMessages", 
+export const getMessages = createAsyncThunk<IMessage[], IGetMessageParams, {rejectValue: Error}>('selectedChat/getMessages', 
    async(params, {rejectWithValue}) => {
 
       try {
 
          const res = await fetch(`https://api.green-api.com/waInstance${params.id}/getChatHistory/${params.token}`, {
             method: 'POST',
-            headers: {"Content-Type": "application/json"},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-               "chatId": `${params.chatId}`,
-               "count": 500
+               'chatId': `${params.chatId}`,
+               'count': 500
             })
          })
          const json = await res.json()
@@ -55,17 +54,17 @@ export interface ISendMessageParams extends IGetMessageParams {
    message: string
 }
 
-export const sendMessage = createAsyncThunk<ISendMessageResponse, ISendMessageParams, {rejectValue: Error}>("selectChat/sendMessage", 
+export const sendMessage = createAsyncThunk<ISendMessageResponse, ISendMessageParams, {rejectValue: Error}>('selectedChat/sendMessage', 
    async(params, {rejectWithValue}) => {
 
       try {
 
          const res = await fetch(`https://api.green-api.com/waInstance${params.id}/sendMessage/${params.token}`, {
             method: 'POST',
-            headers: {"Content-Type": "application/json"},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-               "chatId": params.chatId,
-               "message": params.message
+               'chatId': params.chatId,
+               'message': params.message
             })
          })
          const json = await res.json()
@@ -83,30 +82,38 @@ export const sendMessage = createAsyncThunk<ISendMessageResponse, ISendMessagePa
    }
 )
 
-interface ISelectChatSlice {
-   selectedChats: IGetChatsResponse | null
-   messages: IGetMessageResponse[]
+export interface ISelectedChatSliceState {
+   selectedChat: IChatFullInfo | null
+   messages: IMessage[]
 
    isLoading: boolean
    error: Error | null
 }
 
-const initialState: ISelectChatSlice = {
-   selectedChats: null,
+const initialState: ISelectedChatSliceState = {
+   selectedChat: null,
    messages: [],
 
    isLoading: false,
    error: null
 }
 
-export const selectChatSlice = createSlice({
-   name: 'selectChat',
+export const selectedChatSlice = createSlice({
+   name: 'selectedChat',
    initialState,
 
    reducers: {
-      setSelectedChat: (state, action: PayloadAction<IGetChatsResponse>) => {
-         state.selectedChats = action.payload
+
+      resetSelectedChatSlice: (state) => {
+         state.selectedChat = null
+         state.messages = []
+         state.error = null
+      },
+
+      setSelectedChat: (state, action: PayloadAction<IChatFullInfo>) => {
+         state.selectedChat = action.payload
       }
+
    },
 
    extraReducers: (builder) => {
@@ -139,8 +146,8 @@ export const selectChatSlice = createSlice({
    }
 })
 
-export const selectChatSelector = (state: RootState) => state.selectChatSlice
+export const selectedChatSliceSelector = (state: RootState) => state.selectedChat
 
-export const { setSelectedChat } = selectChatSlice.actions 
+export const { setSelectedChat, resetSelectedChatSlice } = selectedChatSlice.actions 
 
-export default selectChatSlice.reducer
+export default selectedChatSlice.reducer

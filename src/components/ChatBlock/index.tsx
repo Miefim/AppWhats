@@ -1,22 +1,35 @@
 import { useSelector } from 'react-redux'
+import { selectedChatSliceSelector } from '../../redux/slices/selectedChatSlice'
 
-import { selectChatSelector } from '../../redux/slices/selectChatSlice'
 import ChatHeader from '../ChatHeader'
-import SendMessageBlock from '../SendMessageBlock'
 import MessageBlock from '../MessageBlock'
+import SendMessageBlock from '../SendMessageBlock'
 import style from './chatBlock.module.css'
 
 const ChatBlock: React.FC = () => {
-   const { selectedChats } = useSelector(selectChatSelector)
+   
+   const { selectedChat } = useSelector(selectedChatSliceSelector)
+
    return(
       <div className={style.messageBlock}>
          {
-            !selectedChats 
+            !selectedChat 
             ?
                <div className={style.messageBlock__welcomeWindow}>
-                  <img className={style.welcomeWindow__logo} src="/img/appwhatswelcome.png" width='100px' alt="" />
+                  <img 
+                     alt='' 
+                     width='100px' 
+                     src='/img/appwhatswelcome.png' 
+                     className={style.welcomeWindow__logo} 
+                  />
                   <h1 className={style.welcomeWindow__title}>AppWhats лучший мессенджер на Земле!!!</h1>
-                  <a className={style.welcomeWindow__author} target='_blank' href="https://efimovdev.ru/">Efimovdev</a>
+                  <a 
+                     target='_blank' 
+                     href='https://efimovdev.ru/'
+                     className={style.welcomeWindow__author} 
+                  >
+                     Efimovdev
+                  </a>
                </div>
             :
                <>
@@ -33,6 +46,7 @@ const ChatBlock: React.FC = () => {
          }
       </div>
    )
+
 }
 
 export default ChatBlock

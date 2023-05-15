@@ -1,4 +1,4 @@
-import Header from "../components/Header"
+import Header from '../components/Header'
 import style from './pageWrapper.module.css'
 
 type PageWrapperProps = {
@@ -6,12 +6,14 @@ type PageWrapperProps = {
 }
 
 const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
+
    return(
       <div className={style.pageWrapper}>
          <Header /> 
          {children}
       </div>
    )
+   
 }
 
 export default PageWrapper

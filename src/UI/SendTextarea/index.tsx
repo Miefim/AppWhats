@@ -3,21 +3,23 @@ import style from './sendTextarea.module.css'
 type SendTextareaUIProps = {
    setValue: React.ChangeEventHandler<HTMLTextAreaElement>
    value?: string
-   placeholder?: string
    className?: string
+   placeholder?: string
    onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>
 }
 
-const SendTextareaUI: React.FC<SendTextareaUIProps> = ({ value, setValue, placeholder, className, onKeyDown }) => {
+const SendTextareaUI: React.FC<SendTextareaUIProps> = ({ setValue, value, className, placeholder, onKeyDown }) => {
+
    return(
       <textarea 
-         className={`${style.textarea} ${className}`} 
          onChange={setValue}
-         onKeyDown={onKeyDown}
          value={value} 
+         className={`${style.textarea} ${className}`} 
          placeholder={placeholder} 
+         onKeyDown={onKeyDown}
       />
    )
+   
 }
 
 export default SendTextareaUI

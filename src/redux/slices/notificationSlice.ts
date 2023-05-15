@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-
-import { RootState } from "../store"
-import { GetUserParams, Error } from "./userDataSlice"
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
+import { GetUserParams, Error } from './userDataSlice'
 
 export interface INotification {
    receiptId: number
@@ -20,7 +19,7 @@ export interface INotification {
    }
 }
 
-export const getNotification = createAsyncThunk<INotification | null, GetUserParams, {rejectValue: Error}>("notification/getNotification", 
+export const getNotification = createAsyncThunk<INotification | null, GetUserParams, {rejectValue: Error}>('notification/getNotification', 
    async (params, {rejectWithValue}) => {
       try {
 
@@ -40,16 +39,16 @@ export const getNotification = createAsyncThunk<INotification | null, GetUserPar
    }
 )
 
-interface DeleteNotificationParams extends GetUserParams {
+export interface IDeleteNotificationParams extends GetUserParams {
    notificationId: number
 }
 
-export const deleteNotification = createAsyncThunk<INotification, DeleteNotificationParams, {rejectValue: Error}>("notification/deleteNotification", 
+export const deleteNotification = createAsyncThunk<INotification, IDeleteNotificationParams, {rejectValue: Error}>('notification/deleteNotification', 
    async (params, {rejectWithValue}) => {
       try {
 
          const res = await fetch(`https://api.green-api.com/waInstance${params.id}/deleteNotification/${params.token}/${params.notificationId}`, {
-            method: "DELETE"
+            method: 'DELETE'
          })
 
          const resJson = await res.json()
@@ -67,19 +66,25 @@ export const deleteNotification = createAsyncThunk<INotification, DeleteNotifica
    }
 )
 
-export type NotificationSliceState = {
+export interface INotificationSliceState {
    notification: INotification | null
 }
 
-const initialState: NotificationSliceState = {
+const initialState: INotificationSliceState = {
    notification: null,
 }
 
-export const notification = createSlice({
+export const notificationSlice = createSlice({
    name: 'notification',
    initialState,
 
-   reducers: {},
+   reducers: {
+
+      resetNotificationSlice: (state) => {
+         state.notification = null
+      }
+
+   },
 
    extraReducers: (builder) => {
 
@@ -92,6 +97,8 @@ export const notification = createSlice({
    }
 })
 
-export const notificationSelector = (state: RootState) => state.notification
+export const notificationSliceSelector = (state: RootState) => state.notification
 
-export default notification.reducer
+export const { resetNotificationSlice } = notificationSlice.actions 
+
+export default notificationSlice.reducer
