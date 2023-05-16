@@ -1,17 +1,16 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
-import { RootState } from "../store"
-
-export type GetStatusResponse = {
+export interface IStatus {
    stateInstance: 'authorized' | 'notAuthorized'
 }
 
-export type GetUserParams = {
+export interface IAuthParams {
    id: string
    token: string
 }
 
-export const getStatus = createAsyncThunk<GetStatusResponse, GetUserParams, {rejectValue: Error}>("userData/getStatus", 
+export const getStatus = createAsyncThunk<IStatus, IAuthParams, {rejectValue: IError}>('userData/getStatus', 
    async (params, {rejectWithValue}) => {
       try {
 
@@ -24,7 +23,7 @@ export const getStatus = createAsyncThunk<GetStatusResponse, GetUserParams, {rej
                })
             }
 
-         const resJson: GetStatusResponse = await res.json()
+         const resJson: IStatus = await res.json()
          return resJson
 
       } 
@@ -39,11 +38,11 @@ export const getStatus = createAsyncThunk<GetStatusResponse, GetUserParams, {rej
    }
 )
 
-export interface LogoutResponce {
-   "isLogout": boolean
+export interface ILogoutResponce {
+   'isLogout': boolean
 }
 
-export const logout = createAsyncThunk<LogoutResponce, GetUserParams, {rejectValue: Error}>("userData/logout", 
+export const logout = createAsyncThunk<ILogoutResponce, IAuthParams, {rejectValue: IError}>('userData/logout', 
    async (params, {rejectWithValue}) => {
       try {
 
@@ -63,13 +62,13 @@ export const logout = createAsyncThunk<LogoutResponce, GetUserParams, {rejectVal
    }
 )
 
-export type GetQrResponse = {
+export interface IQr {
    type: string
    message: string
 }
 
 
-export const getQr = createAsyncThunk<GetQrResponse, GetUserParams, {rejectValue: Error}>("userData/getQr", 
+export const getQr = createAsyncThunk<IQr, IAuthParams, {rejectValue: IError}>('userData/getQr', 
    async (params, {rejectWithValue}) => {
       try {
 
@@ -90,48 +89,48 @@ export const getQr = createAsyncThunk<GetQrResponse, GetUserParams, {rejectValue
    }
 )
 
-export const setSettings = createAsyncThunk<void, GetUserParams>("userData/setSettings", 
+export const setSettings = createAsyncThunk<void, IAuthParams>('userData/setSettings', 
    async (params) => {
 
       const data = {
-         "webhookUrl": "",
-         "webhookUrlToken": "",
-         "delaySendMessagesMilliseconds": 1000,
-         "markIncomingMessagesReaded": "no",
-         "markIncomingMessagesReadedOnReply": "no",
-         "outgoingWebhook": "no",
-         "outgoingMessageWebhook": "no",
-         "outgoingAPIMessageWebhook": "no",
-         "incomingWebhook": "yes",
-         "stateWebhook": "yes",
-         "keepOnlineStatus": "no"
+         'webhookUrl': '',
+         'webhookUrlToken': '',
+         'delaySendMessagesMilliseconds': 1000,
+         'markIncomingMessagesReaded': 'no',
+         'markIncomingMessagesReadedOnReply': 'no',
+         'outgoingWebhook': 'no',
+         'outgoingMessageWebhook': 'no',
+         'outgoingAPIMessageWebhook': 'no',
+         'incomingWebhook': 'yes',
+         'stateWebhook': 'yes',
+         'keepOnlineStatus': 'no'
       }
 
       const res = await fetch(`https://api.green-api.com/waInstance${params.id}/setSettings/${params.token}`, {
-         method: "POST",
-         headers: {"Content-Type": "application/json"},
+         method: 'POST',
+         headers: {'Content-Type': 'application/json'},
          body: JSON.stringify(data)
       })
 
    }
 )
 
-export type Error = {
+export interface IError {
    status: number
    message: string
 }
 
-export type UserSliceState = {
+export interface IUserSliceState {
    id: string | null,
    token: string | null,
    authStatus: 'notAuthorized' | 'authorized' | null
    qr: string | null 
 
    isLoading: boolean
-   error: Error | null
+   error: IError | null
 }
 
-const initialState: UserSliceState = {
+const initialState: IUserSliceState = {
    id: null,
    token: null,
    authStatus: null,
@@ -141,7 +140,7 @@ const initialState: UserSliceState = {
    error: null,
 }
 
-export const userData = createSlice({
+export const userDataSlice = createSlice({
    name: 'userData',
    initialState,
 
@@ -212,6 +211,6 @@ export const userData = createSlice({
 
 export const userDataSelector = (state: RootState) => state.userData
 
-export const { setAuthStatus, resetAuthDataSlice } = userData.actions
+export const { setAuthStatus, resetAuthDataSlice } = userDataSlice.actions
 
-export default userData.reducer
+export default userDataSlice.reducer

@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { IChatFullInfo } from './chatsSlice'
-import { GetUserParams, Error } from './userDataSlice'
+import { IAuthParams, IError } from './userDataSlice'
 
 export interface IMessage {
    type: 'outgoing' | 'incoming'
@@ -14,11 +14,11 @@ export interface IMessage {
    sendByApi: boolean
 }
 
-export interface IGetMessageParams extends GetUserParams {
+export interface IGetMessageParams extends IAuthParams {
    chatId: string,
 }
 
-export const getMessages = createAsyncThunk<IMessage[], IGetMessageParams, {rejectValue: Error}>('selectedChat/getMessages', 
+export const getMessages = createAsyncThunk<IMessage[], IGetMessageParams, {rejectValue: IError}>('selectedChat/getMessages', 
    async(params, {rejectWithValue}) => {
 
       try {
@@ -54,7 +54,7 @@ export interface ISendMessageParams extends IGetMessageParams {
    message: string
 }
 
-export const sendMessage = createAsyncThunk<ISendMessageResponse, ISendMessageParams, {rejectValue: Error}>('selectedChat/sendMessage', 
+export const sendMessage = createAsyncThunk<ISendMessageResponse, ISendMessageParams, {rejectValue: IError}>('selectedChat/sendMessage', 
    async(params, {rejectWithValue}) => {
 
       try {
@@ -87,7 +87,7 @@ export interface ISelectedChatSliceState {
    messages: IMessage[]
 
    isLoading: boolean
-   error: Error | null
+   error: IError | null
 }
 
 const initialState: ISelectedChatSliceState = {

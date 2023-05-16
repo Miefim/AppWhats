@@ -41,9 +41,11 @@ const ChatsList: React.FC = () => {
 
    useEffect(() => {
 
-      if(id && token){
-         dispatch(getChats({id, token}))
-         dispatch(getContacts({id, token}))
+      if(id && token && !chats.length){
+         setTimeout(() => {
+            dispatch(getChats({id, token}))
+            dispatch(getContacts({id, token}))
+         }, 1000)
       }
 
    },[])

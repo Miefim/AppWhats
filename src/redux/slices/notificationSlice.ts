@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { GetUserParams, Error } from './userDataSlice'
+import { IAuthParams, IError } from './userDataSlice'
 
 export interface INotification {
    receiptId: number
@@ -19,7 +19,7 @@ export interface INotification {
    }
 }
 
-export const getNotification = createAsyncThunk<INotification | null, GetUserParams, {rejectValue: Error}>('notification/getNotification', 
+export const getNotification = createAsyncThunk<INotification | null, IAuthParams, {rejectValue: IError}>('notification/getNotification', 
    async (params, {rejectWithValue}) => {
       try {
 
@@ -39,11 +39,11 @@ export const getNotification = createAsyncThunk<INotification | null, GetUserPar
    }
 )
 
-export interface IDeleteNotificationParams extends GetUserParams {
+export interface IDeleteNotificationParams extends IAuthParams {
    notificationId: number
 }
 
-export const deleteNotification = createAsyncThunk<INotification, IDeleteNotificationParams, {rejectValue: Error}>('notification/deleteNotification', 
+export const deleteNotification = createAsyncThunk<INotification, IDeleteNotificationParams, {rejectValue: IError}>('notification/deleteNotification', 
    async (params, {rejectWithValue}) => {
       try {
 

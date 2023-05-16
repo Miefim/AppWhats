@@ -20,8 +20,8 @@ const AuthBlock: React.FC = () => {
    const dispatch = useAppDispatch()
    const navigate = useNavigate()
    const { id, token, authStatus, qr, isLoading, error } = useSelector(userDataSelector)
-   const [ idValue, setIdValue ] = useState<string>('1101820336')
-   const [ tokenValue, setTokenValue ] = useState<string>('3845d11cc758416eb4853749fe1cc84b8723828d3b684daa9a')
+   const [ idValue, setIdValue ] = useState<string>('')
+   const [ tokenValue, setTokenValue ] = useState<string>('')
    const [ getLocalStorage, setLocalStorage, deleteLocalstorage ] = useLocalStorage() 
 
    const authData = getLocalStorage('APPWHATSAUTH')

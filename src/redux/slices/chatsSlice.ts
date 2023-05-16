@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { GetUserParams, Error } from './userDataSlice'
+import { IAuthParams, IError } from './userDataSlice'
 
 export interface IChat {
    id: string
@@ -10,7 +10,7 @@ export interface IChat {
    ephemeralSettingTimestamp: number
 }
 
-export const getChats = createAsyncThunk<IChat[], GetUserParams, {rejectValue: Error}>('chats/getChats', 
+export const getChats = createAsyncThunk<IChat[], IAuthParams, {rejectValue: IError}>('chats/getChats', 
    async(params, {rejectWithValue}) => {
 
       try {
@@ -37,7 +37,7 @@ export interface IContact {
    type: string
 }
 
-export const getContacts = createAsyncThunk<IContact[], GetUserParams, {rejectValue: Error}>('chats/getContacts', 
+export const getContacts = createAsyncThunk<IContact[], IAuthParams, {rejectValue: IError}>('chats/getContacts', 
    async(params, {rejectWithValue}) => {
 
       try {
@@ -71,7 +71,7 @@ export interface IChatsSliceState {
    chatsFullInfo: IChatFullInfo[]
    
    isLoading: boolean
-   error: Error | null
+   error: IError | null
 }
 
 const initialState: IChatsSliceState = {
