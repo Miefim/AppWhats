@@ -32,6 +32,34 @@
 
 .authForm__helper {
    margin: 0;
+   margin-bottom: 10px;
    width: 400px;
    text-align: center;
+}
+
+.authForm__loader {
+   width: 13px;
+}
+
+.authForm__err {
+   display: flex;
+   color: red;
+   width: 100%;
+   height: 20px;
+   margin-bottom: 5px;
+}
+
+.authForm__enterButton {
+   width: 70px;
+   height: 36px;
+}
+
+.authForm__qrButton {
+   margin-bottom: 10px;
+}
+
+.helper__link {
+   color: green;
+   text-decoration: none;
+   font-weight: 500;
 }

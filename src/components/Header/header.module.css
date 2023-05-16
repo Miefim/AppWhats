@@ -25,14 +25,31 @@
 .status {
    display: flex;
    align-items: center;
-   width: 110px;
+   width: 140px;
    font-size: 13px;
 }
 
-.status__circle {
+.status__indicator {
    width: 10px;
    height: 10px;
    border-radius: 50%;
+   background-color: red;
+   box-shadow: 0px 0px 5px 2px red;
+   margin-right: 10px;
+   transition: .3s;
+}
+
+.indicator__green {
    background-color: green;
-   margin-right: 5px;
+   box-shadow: 0px 0px 5px 2px green;
+}
+
+.status__logoutButton {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 80%;
+   width: 30px;
+   padding: 0;
+   margin: auto 0 auto auto;
 }

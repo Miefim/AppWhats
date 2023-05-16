@@ -47,10 +47,10 @@
 }
 
 .messageBlock__body {
-   display: flex;
    box-sizing: border-box;
    width: 100%;
    height: calc(100% - 70px);
+   padding: 10px 20px;
    overflow-y: auto;
 }
 .messageBlock__body::-webkit-scrollbar {

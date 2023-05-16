@@ -1,0 +1,24 @@
+.modal {
+   position: absolute;
+   display: none;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background-color: #00000050;
+}
+
+.modal__visible {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 3;
+}
+
+.modal__content {
+   padding: 20px;
+   min-width: 20px;
+   min-height: 20px;
+   background-color: #FFF;
+   border-radius: 5px;
+}

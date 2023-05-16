@@ -1,9 +1,15 @@
+import { useSelector } from 'react-redux'
+import { selectedChatSliceSelector } from '../../redux/slices/selectedChatSlice'
+
 import AvatarUI from '../../UI/Avatar'
 import style from './chatHeader.module.css'
 
 const ChatHeader: React.FC = () => {
+
+   const { selectedChat } = useSelector(selectedChatSliceSelector)
+   const chatName = selectedChat?.name ?  selectedChat?.name : selectedChat?.id
    const avatar = ''
-   const chatName = 79210096938
+   
    return(
       <div className={style.chatHeader}>
          <AvatarUI avatarUrl={avatar} className={style.chatHeader__avatar} />
@@ -12,6 +18,7 @@ const ChatHeader: React.FC = () => {
          </div>
       </div>
    )
+   
 }
 
 export default ChatHeader

@@ -1,0 +1,24 @@
+.newChat {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 250px;
+   position: relative;
+}
+
+.newChat__title {
+   margin: 0;
+   margin-bottom: 20px;
+}
+
+.newChat__input {
+   overflow: hidden;
+   margin-bottom: 20px;
+}
+
+.newChat__error {
+   color: red;
+   position: absolute;
+   top: 67px;
+}

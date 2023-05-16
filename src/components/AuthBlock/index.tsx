@@ -1,27 +1,124 @@
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useAppDispatch } from '../../redux/store'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
+import { 
+   getQr, 
+   getStatus, 
+   setSettings, 
+   userDataSelector, 
+   resetAuthDataSlice 
+} from '../../redux/slices/userDataSlice'
 import InputUI from '../../UI/Input'
 import ButtonUI from '../../UI/Button'
+import LoaderUI from '../../UI/Loader'
 import style from './authBlock.module.css'
 
 const AuthBlock: React.FC = () => {
-   const loginOnchangeHandler = () => {}
-   return(
-      <div className={style.authBlock}>
-         {/* <div className={style.authForm}>
-            <h3 className={style.authForm__title}>Введите данные своего инстанса</h3>
-            <InputUI className={style.authForm__input} placeholder='idInstance' onChange={loginOnchangeHandler}/>
-            <InputUI className={style.authForm__input} placeholder='apiTokenInstance' onChange={loginOnchangeHandler}/>
-            <ButtonUI>Ввод</ButtonUI>
-         </div> */}
-         <div className={style.authForm}>
-            <h3 className={style.authForm__title}>Авторизуйтесь через свое приложение WhatsApp</h3>
-            <p className={style.authForm__helper}>
-               Для этого зайдите в настройки приложения, нажмите на изображение с QR-кодом и нажмите сканировать
-            </p>
-            <img src="data:image/png;base64,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" alt="" />
-            <ButtonUI>Получить новый QR-код</ButtonUI>
+
+   const dispatch = useAppDispatch()
+   const navigate = useNavigate()
+   const { id, token, authStatus, qr, isLoading, error } = useSelector(userDataSelector)
+   const [ idValue, setIdValue ] = useState<string>('')
+   const [ tokenValue, setTokenValue ] = useState<string>('')
+   const [ getLocalStorage, setLocalStorage, deleteLocalstorage ] = useLocalStorage() 
+
+   const authData = getLocalStorage('APPWHATSAUTH')
+   
+   useEffect(() => {
+
+      if(authData){
+         dispatch(getStatus({id: authData.id, token: authData.token}))
+      }
+
+   },[])
+   
+   useEffect(() => {
+
+      if(id && token){
+         setLocalStorage('APPWHATSAUTH', {
+            id, 
+            token,
+         })
+         dispatch(setSettings({id, token}))
+      }
+      if(authStatus === 'authorized'){
+         navigate('/main')
+      }
+      else if(id && token && authStatus === 'notAuthorized'){
+         dispatch(getQr({id, token}))
+      }
+      
+   },[authStatus])
+   
+   const enterButtonHandler = () => {  
+      dispatch(getStatus({id: idValue, token: tokenValue}))
+   }
+
+   const getQrButtonHandler = () => {
+      if(id && token){
+         dispatch(getQr({id, token}))
+      }
+   }
+
+   const otherInstansClickHandler = () => {
+      dispatch(resetAuthDataSlice())
+      deleteLocalstorage('APPWHATSAUTH')
+   }
+      
+   if(isLoading){
+      return (
+         <div className={style.authBlock}>
+            <LoaderUI />
          </div>
-      </div>
-   )
+      )  
+   }
+   else{
+      return(
+         <div className={style.authBlock}>
+            {!id &&
+               <div className={style.authForm}>
+                  <h3 className={style.authForm__title}>Введите данные своего инстанса</h3>
+                  <div className={style.authForm__helper}>
+                     Данные можно получить, зарегистрировавшись на ресурсе <br />
+                     <a className={style.helper__link} target='_blanc' href='https://green-api.com/index.html'>GREEN API</a>
+                  </div>
+                  <div className={style.authForm__err}>{error && 'Неверный token или id'}</div>
+                  <InputUI 
+                     onChange={(e) => setIdValue(e.target.value)}
+                     value={idValue}
+                     className={style.authForm__input} 
+                     placeholder='idInstance' 
+                     maxLength={10}
+                  />
+                  <InputUI 
+                     onChange={(e) => setTokenValue(e.target.value)}
+                     value={tokenValue}
+                     className={style.authForm__input}
+                     placeholder='apiTokenInstance' 
+                  />
+                  <ButtonUI className={style.authForm__enterButton} onClick={enterButtonHandler}>
+                     {isLoading ? <LoaderUI className={style.authForm__loader} /> : 'Ввод'}
+                  </ButtonUI>
+               </div>
+            }
+            {(id && authStatus === 'notAuthorized') &&
+               <div className={style.authForm}>
+                  <h3 className={style.authForm__title}>Авторизуйтесь через свое приложение WhatsApp</h3>
+                  <p className={style.authForm__helper}>
+                     Для этого зайдите в настройки приложения, нажмите на изображение с QR-кодом и нажмите сканировать
+                  </p>
+                  {!isLoading && <img src={`data:image/png;base64,${qr}`} alt='' />}
+                  {isLoading && <LoaderUI />}
+                  <ButtonUI className={style.authForm__qrButton} onClick={getQrButtonHandler}>Получить новый QR-код</ButtonUI>
+                  <ButtonUI onClick={otherInstansClickHandler}>Ввести другие данные инстанса</ButtonUI>
+               </div>
+            }
+         </div>
+      )
+   }
+   
 }
 
 export default AuthBlock

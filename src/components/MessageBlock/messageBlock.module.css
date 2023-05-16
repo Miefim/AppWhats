@@ -2,8 +2,13 @@
    display: flex;
    flex-direction: column;
    box-sizing: border-box;
-   padding: 0 20px;
    width: 100%;
-   height: 100%;
-   margin: 20px 0;
+}
+
+.messageBlock__loaderWrapper {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: calc(506px - 70px);
 }
