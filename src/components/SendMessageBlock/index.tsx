@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { getChats } from '../../redux/slices/chatsSlice'
 import { useAppDispatch } from '../../redux/store'
 import { userDataSelector } from '../../redux/slices/userDataSlice'
-import { selectedChatSliceSelector, sendMessage, getMessages } from '../../redux/slices/selectedChatSlice'
+import { selectedChatSliceSelector, sendMessage, setNewMessage } from '../../redux/slices/selectedChatSlice'
 
 import SendButtonUI from '../../UI/SendButton'
 import SendTextareaUI from '../../UI/SendTextarea'
@@ -19,10 +19,10 @@ const EnteredTextBlock: React.FC = () => {
    const sendButtonHandler = async() => {
       if(id && token && selectedChat){
          await dispatch(sendMessage({id, token, chatId: selectedChat.id, message}))
+         dispatch(setNewMessage({type: 'outgoing', textMessage: message, typeMessage: 'textMessage'}))
          setMessage('')
          setTimeout(async() => {
             const isNewChat = !selectedChat.name && !selectedChat.type
-            await dispatch(getMessages({id, token, chatId: selectedChat.id}))
             if(isNewChat) await dispatch(getChats({id, token}))
          }, 2000)
       }

@@ -51,6 +51,9 @@ const App: React.FC = () => {
           authStatus !== 'authorized' && dispatch(setAuthStatus('authorized'))
           dispatch(deleteNotification({id, token, notificationId: notification.receiptId})) 
         }
+        else {
+          dispatch(deleteNotification({id, token, notificationId: notification.receiptId}))
+        }
       }
       else if(notification.body.typeWebhook === 'incomingMessageReceived'){
         if(notification.body.senderData.chatId === selectedChat?.id){

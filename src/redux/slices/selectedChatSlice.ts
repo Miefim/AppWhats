@@ -5,13 +5,13 @@ import { IAuthParams, IError } from './userDataSlice'
 
 export interface IMessage {
    type: 'outgoing' | 'incoming'
-   idMessage: string
-   timestamp: number
+   idMessage?: string
+   timestamp?: number
    typeMessage: string
-   chatId: string
+   chatId?: string
    textMessage: string
-   statusMessage: string
-   sendByApi: boolean
+   statusMessage?: string
+   sendByApi?: boolean
 }
 
 export interface IGetMessageParams extends IAuthParams {
@@ -104,6 +104,10 @@ export const selectedChatSlice = createSlice({
 
    reducers: {
 
+      setNewMessage: (state, action: PayloadAction<IMessage>) => {
+         state.messages = [action.payload, ...state.messages]
+      },
+
       resetSelectedChatSlice: (state) => {
          state.selectedChat = null
          state.messages = []
@@ -148,6 +152,6 @@ export const selectedChatSlice = createSlice({
 
 export const selectedChatSliceSelector = (state: RootState) => state.selectedChat
 
-export const { setSelectedChat, resetSelectedChatSlice } = selectedChatSlice.actions 
+export const { setSelectedChat, resetSelectedChatSlice, setNewMessage } = selectedChatSlice.actions 
 
 export default selectedChatSlice.reducer
